@@ -265,11 +265,11 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .help .section-head { margin: 0; }
 .help-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
-/* почему нам доверяют: как у первой студии. Фон: фото с листьями эвкалипта под оливовой плёнкой (текст читается, листья видны справа).
+/* почему нам доверяют: как у первой студии. Фон: фото с листьями эвкалипта; оливовая плёнка плотная слева (текст читается) и почти прозрачная справа (листья хорошо видны).
    Слева заголовок и рукописная надпись «С заботой о каждой детали» (картинка), справа три нумерованные колонки. До 1100 px всё друг под другом. */
 .section-leaves {
   background:
-    linear-gradient(rgba(var(--bg-3-rgb), .6), rgba(var(--bg-3-rgb), .6)),
+    linear-gradient(90deg, rgba(var(--bg-3-rgb), .78) 0%, rgba(var(--bg-3-rgb), .5) 50%, rgba(var(--bg-3-rgb), .08) 100%),
     url("../assets/img/trust-leaves.webp") right center / cover no-repeat,
     var(--bg-3);
 }
