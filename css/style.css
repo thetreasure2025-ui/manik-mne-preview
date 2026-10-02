@@ -123,13 +123,18 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .hero-brand span { display: block; }
 .hero-brand span + span { padding-left: 1.05em; }
 .hero-text { max-width: 46rem; }
+/* компьютер: текст уже и фото сдвинуто вправо, чтобы подзаголовок и преимущества не заходили на девушку (на мобильном фото сверху, там свои правила) */
+@media (min-width: 821px) {
+  .hero-text { max-width: min(40rem, 46vw); }
+  .hero-bg img { left: 8%; width: 100%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%); mask-image: linear-gradient(90deg, transparent, #000 14%); } /* мягкий левый край сдвинутого фото */
+}
 .eyebrow { font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 18px; }
 .hero h1 { font-size: clamp(1.45rem, 2.4vw, 2.1rem); margin-bottom: 16px; }
 .hero-points { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-wrap: wrap; gap: 6px 0; font-size: 18px; }
 .hero-points li:not(:last-child)::after { content: "·"; margin: 0 .6em; color: var(--gold); font-weight: 700; }
 .hero-points b { font-family: var(--serif); font-weight: 600; font-size: 1.1em; white-space: nowrap; }
 /* на узких экранах преимущества столбиком с точками слева: в строку с разделителями они переносились бы с точкой в конце строки */
-@media (max-width: 640px) {
+@media (max-width: 1400px) {
   .hero-points { flex-direction: column; gap: 2px; }
   .hero-points li:not(:last-child)::after { content: none; }
   .hero-points li::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 10px; vertical-align: middle; border-radius: 50%; background: var(--gold); }
