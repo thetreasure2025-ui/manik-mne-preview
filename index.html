@@ -34,7 +34,11 @@
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap hero-grid">
+      <picture class="hero-bg">
+        <source media="(max-width: 820px)" srcset="assets/img/hero-tall.webp">
+        <img src="assets/img/hero-wide.webp" alt="" fetchpriority="high" decoding="async">
+      </picture>
+      <div class="wrap">
         <div class="hero-text">
           <p class="hero-brand" aria-hidden="true"><span>МАНИК</span><span>МНЕ</span></p>
           <p class="eyebrow">Студия эстетического маникюра · Москва</p>
@@ -48,9 +52,6 @@
           <a class="btn btn-primary btn-lg" href="https://wa.me/79060072420" data-book>Записаться онлайн</a>
           <p class="hint">Покажем свободное время и мастеров.</p>
         </div>
-        <figure class="hero-photo">
-          <img src="assets/img/hero.webp" alt="Рука с аккуратным нюдовым маникюром" fetchpriority="high" decoding="async">
-        </figure>
       </div>
     </section>
 
