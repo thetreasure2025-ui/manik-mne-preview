@@ -1,5 +1,5 @@
-/* Оживление страницы: высота липкой шапки, вкладки прайса, блоки «Работы / Отзывы / Мастера»,
-   ссылки кнопок сертификата. */
+/* Оживление страницы: высота липкой шапки, вкладки прайса, блоки «Работы / Отзывы»,
+   ссылка на портфолио, ссылки кнопок сертификата. */
 (function () {
   'use strict';
 
@@ -65,7 +65,7 @@
     e.preventDefault();
   });
 
-  // --- Работы / Отзывы / Мастера: только из data/content.js; пусто → блок и пункт меню скрыты ---
+  // --- Работы / Отзывы: только из data/content.js; пусто → блок и пункт меню скрыты. Блока мастеров на сайте нет и не будет. ---
   var L = window.MNE_LIB;
   var D = window.MNE_DATA || {};
   var demo = D.demo || {};
@@ -102,7 +102,12 @@
       var box = sec.querySelector('[data-rating]');
       if (box) box.innerHTML = L.renderRating(L.pickRating(rev.rating, drev.rating, showDemo));
     });
-    fill('masters', function () { return L.withDemo(D.masters, demo.masters, showDemo); }, L.renderMaster);
+    // «Посмотреть ещё работы» ведёт только на настоящую страницу портфолио (D.portfolioUrl); без ссылки кнопки нет
+    $$('[data-portfolio-link]').forEach(function (a) {
+      var url = typeof D.portfolioUrl === 'string' ? D.portfolioUrl : '';
+      if (url) a.href = url;
+      a.hidden = !url;
+    });
   }
 
   // нет lib.js (не загрузился): блоки остаются скрытыми, остальная страница работает

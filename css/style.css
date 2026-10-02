@@ -5,7 +5,7 @@
   --bg-3: #4E513F;            /* акцентные полосы: тёмный олив */
   --bg-rgb: 28, 28, 30;       /* тот же --bg для rgba(var(--bg-rgb), .94) */
   --ink: #F4F1EA;             /* основной текст: кремовый */
-  --ink-2: #A19E95;           /* второстепенный текст */
+  --ink-2: #BFBBB1;           /* второстепенный текст: светлее, чем у первой студии, чтобы хорошо читался */
   --gold: #D6C0A4;            /* песок: кнопки, активная вкладка, рамка фокуса, номера */
   --line: rgba(244, 241, 234, .16);
   --radius: 14px;
@@ -51,8 +51,8 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .btn-outline { background: transparent; color: var(--ink); }
 .btn-outline:hover { background: var(--ink); color: var(--bg); }
 .btn-lg { min-height: 56px; padding: 0 34px; font-size: 16px; }
-.btn-sm { min-height: 40px; padding: 0 18px; font-size: 14px; }
-.link-arrow { font-weight: 600; font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+.btn-sm { min-height: 44px; padding: 0 18px; font-size: 15px; }
+.link-arrow { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; font-size: 15px; text-decoration: underline; text-underline-offset: 4px; }
 
 /* шапка */
 .site-header {
@@ -67,22 +67,22 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .logo-name i { font-style: normal; padding: 0 .15em; }
 .logo-sub { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); margin-top: 6px; white-space: nowrap; }
 .nav { order: 1; justify-self: start; display: flex; gap: 20px; margin-left: 0; } /* с пунктом «Отзывы» меню занимает почти всю боковую колонку: при gap 28 оно подходило к названию на 7 px */
-.nav a { font-weight: 600; font-size: 16px; text-decoration: none; padding: 8px 2px; border-bottom: 2px solid transparent; white-space: nowrap; }
+.nav a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; font-size: 16px; text-decoration: none; padding: 0 2px; border-bottom: 2px solid transparent; white-space: nowrap; }
 .nav a:hover { border-bottom-color: var(--ink); }
 .header-cta { order: 3; justify-self: end; margin-left: 0; }
 /* до 1200 px три части в одну строку не влезают: шапка в два ряда (логотип слева, кнопка справа, меню вторым рядом). Правила выше
    (grid, order, центровка названия) здесь возвращаются к прежним. --header-h здесь запасное значение без JS (JS позже перезапишет). */
 @media (max-width: 1200px) {
-  :root { --header-h: 105px; }
+  :root { --header-h: 109px; }
   .header-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; min-height: 0; padding: 10px 0 0; }
   .logo { order: 0; align-items: stretch; text-align: left; }
   .logo-name { font-size: 22px; }
-  .header-cta { order: 0; justify-self: auto; margin-left: auto; min-height: 40px; padding: 0 18px; }
+  .header-cta { order: 0; justify-self: auto; margin-left: auto; min-height: 44px; padding: 0 18px; }
   .nav { order: 3; justify-self: auto; width: 100%; margin: 0; gap: 22px; overflow-x: auto; padding: 6px 0 4px; scrollbar-width: none; }
 }
 /* телефон: подпись логотипа прячем, кнопка и меню компактнее, в шапке ровно два ряда */
 @media (max-width: 640px) {
-  :root { --header-h: 103px; }
+  :root { --header-h: 109px; }
   .logo-sub { display: none; }
   .header-inner { column-gap: 8px; }
   .logo-name { font-size: 20px; }
@@ -93,7 +93,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 /* 320–359 px: логотип, кнопка и меню вместе не помещаются: шапка была в три ряда, «Контакты» обрезалось. Кнопки «Записаться онлайн»
    в шапке здесь нет (внизу экрана есть панель «Записаться»), остаются логотип и меню в два ряда. */
 @media (max-width: 359px) {
-  :root { --header-h: 83px; }
+  :root { --header-h: 85px; }
   .header-cta { display: none; }
   .nav { gap: 10px; }
   .nav a { padding-left: 0; padding-right: 0; } /* при отступах по 2 px «Контакты» всё равно обрезалось на 7 px */
@@ -121,21 +121,25 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .hero-brand span { display: block; }
 .hero-brand span + span { padding-left: 1.05em; }
 .hero-text { max-width: 46rem; }
-.eyebrow { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 18px; }
+.eyebrow { font-size: 14px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 18px; }
 .hero h1 { font-size: clamp(1.45rem, 2.4vw, 2.1rem); margin-bottom: 16px; }
-.lead { font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--ink-2); max-width: 34em; margin: 0 0 26px; }
-.hero-facts { list-style: none; padding: 0; margin: 0 0 30px; display: grid; gap: 10px; }
-.hero-facts li { display: flex; gap: 14px; align-items: baseline; font-size: 17px; }
-.hero-facts b { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; min-width: 6.6em; white-space: nowrap; }
-.hint { margin: 14px 0 0; font-size: 14px; color: var(--ink-2); }
+.hero-points { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-wrap: wrap; gap: 6px 0; font-size: 18px; }
+.hero-points li:not(:last-child)::after { content: "·"; margin: 0 .6em; color: var(--gold); font-weight: 700; }
+.hero-points b { font-family: var(--serif); font-weight: 600; font-size: 1.1em; white-space: nowrap; }
+/* на узких экранах преимущества столбиком с точками слева: в строку с разделителями они переносились бы с точкой в конце строки */
+@media (max-width: 640px) {
+  .hero-points { flex-direction: column; gap: 2px; }
+  .hero-points li:not(:last-child)::after { content: none; }
+  .hero-points li::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 10px; vertical-align: middle; border-radius: 50%; background: var(--gold); }
+}
+.hint { margin: 14px 0 0; font-size: 16px; color: var(--ink-2); }
 /* невысокие окна ноутбуков (1366x657, 1536x730, 1440x790): вертикальные отступы первого экрана уже, чтобы «−20%» и кнопка не уходили за нижний край окна */
 @media (min-width: 821px) and (max-height: 860px) {
   .hero { padding-top: 16px; }
   .hero-brand { margin-bottom: 10px; }
   .hero .eyebrow { margin-bottom: 10px; }
   .hero h1 { margin-bottom: 10px; }
-  .hero .lead { margin-bottom: 16px; }
-  .hero-facts { gap: 6px; margin-bottom: 18px; }
+  .hero-points { margin-bottom: 18px; }
 }
 /* телефон и планшет: вертикальное фото сверху во всю ширину (лицо и рука в верхней части), текст начинается под рукой и ложится на тёмный низ кадра;
    высота первого экрана тут задаётся текстом, фото не растягивается */
@@ -144,7 +148,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
   .hero-bg img { inset: auto; top: -10vw; left: 0; height: auto; aspect-ratio: 841 / 1414; object-position: 50% 0; }
   .hero::after { background: linear-gradient(180deg, rgba(var(--bg-rgb), 0) 0, rgba(var(--bg-rgb), 0) 34vw, rgba(var(--bg-rgb), .78) 62vw, rgba(var(--bg-rgb), .94) 86vw, var(--bg) 120vw); }
   .hero-brand { font-size: clamp(3rem, min(15vw, 11vh), 5.6rem); font-size: clamp(3rem, min(15vw, 11svh), 5.6rem); }
-  .hero-facts b { min-width: 5.6em; }
+  .hero-points { font-size: 17px; }
 }
 
 /* виджет записи YCLIENTS: своя кнопка скрыта, окно поверх страницы */
@@ -165,7 +169,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
   body { padding-bottom: 76px; }
 }
 
-/* направления: фото-плитки, название и цена лежат поверх фото на светлом песочном градиенте (чёрный текст), кнопки под фото */
+/* направления: фото-плитки, название и цена лежат поверх фото на тёмном градиенте, под фото короткое описание и кнопка «Посмотреть цены» */
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .tile { display: flex; flex-direction: column; gap: 14px; }
 .tile-media { position: relative; isolation: isolate; border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--bg-3); border: 1px solid var(--line); }
@@ -176,19 +180,13 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 }
 .tile-title { font-size: 1.7rem; }
 .tile-price { margin: 0; font: 600 1.05rem var(--serif); }
-/* описание на мыши раскрывается при наведении и при фокусе внутри плитки; на тач-устройствах скрыто визуально, но остаётся для скринридеров */
-.tile-text { margin: 4px 0 0; color: var(--ink-2); font-size: 14px; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .35s ease, opacity .35s ease; }
-@media (hover: hover) {
-  .tile:hover .tile-img { transform: scale(1.04); }
-  .tile:hover .tile-text, .tile:focus-within .tile-text { max-height: 12em; opacity: 1; } /* 12em = 7 строк: самое длинное описание (156 знаков) целиком */
-}
-@media (hover: none) { .tile-text { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
-.tile-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; } /* ссылка всегда под кнопкой: в ряд она переносилась не у всех плиток */
+.tile-text { margin: 0; color: var(--ink-2); font-size: 16px; }
+@media (hover: hover) { .tile:hover .tile-img { transform: scale(1.04); } }
+.tile-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: auto; } /* кнопка прижата к низу: у плиток в ряду разной длины описание, кнопки на одной линии */
 @media (max-width: 960px) {
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile-overlay { padding: 48px 18px 18px; } /* плитки уже: подпись с раскрытым описанием не должна закрывать название */
+  .tile-overlay { padding: 48px 18px 18px; } /* плитки уже: подпись поменьше */
   .tile-title { font-size: 1.5rem; }
-  .tile-text { font-size: 13px; }
 }
 @media (max-width: 560px) {
   .tiles { grid-template-columns: minmax(0, 1fr); }
@@ -214,6 +212,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 /* От 681 px вкладки компактнее: с 1200 px все восемь (капсом, 12 px, разрядка .04em) помещаются в один ряд без прокрутки.
    С отступами 12 px и разрядкой .06em им нужно 1219 px при полосе 1168 px. Полоса остаётся липкой и в один ряд на любой ширине;
    там, где вкладки не помещаются, она прокручивается вбок. */
+@media (max-width: 680px) { .tab { font-size: 14px; } } /* на телефоне вкладки прокручиваются, поэтому буквы крупнее */
 @media (min-width: 681px) {
   .tabs { gap: 5px; }
   .tab { padding: 0 10px; letter-spacing: .04em; }
@@ -226,7 +225,8 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .price-table thead .num { font-family: var(--sans); font-size: 13px; }
 .price-table .act { text-align: right; width: 1%; white-space: nowrap; }
 .p-name { display: block; font-weight: 600; }
-.p-note { display: block; color: var(--ink-2); font-size: 14px; margin-top: 2px; font-weight: 400; }
+.p-note { display: block; color: var(--ink-2); font-size: 16px; margin-top: 2px; font-weight: 400; max-width: 46em; }
+.p-hint { font-style: italic; }
 @media (max-width: 680px) {
   .price-table thead { display: none; }
   .price-table, .price-table tbody, .price-table tr, .price-table th, .price-table td { display: block; }
@@ -253,17 +253,10 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .review { position: relative; margin: 0; padding: 38px 24px 24px; border-radius: var(--radius); background: var(--bg-2); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 16px; }
 .review p { margin: 0; }
 .review footer { margin-top: auto; font-size: 14px; color: var(--ink-2); }
-.masters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.master { position: relative; padding: 38px 24px 24px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--bg-2); display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
-.avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin-bottom: 8px; }
-.avatar-stub { display: flex; align-items: center; justify-content: center; background: var(--bg-3); font: 500 28px var(--serif); }
-.master h3 { font-size: 1.4rem; }
-.master-role, .master-exp { margin: 0; color: var(--ink-2); font-size: 15px; }
-.master .btn { margin-top: 14px; max-width: 100%; padding-top: 8px; padding-bottom: 8px; white-space: normal; line-height: 1.25; }
-@media (max-width: 960px) { .works, .reviews, .masters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 960px) { .works, .reviews { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
   .works { gap: 10px; }
-  .reviews, .masters { grid-template-columns: minmax(0, 1fr); }
+  .reviews { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* помощь с выбором */
@@ -284,8 +277,9 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .cert-text > p { color: var(--ink-2); }
 .cert-amounts { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 14px; }
 .cert-amounts .btn { white-space: nowrap; }
-.cert-note { font-size: 14px; }
-.cert-alt { font-size: 14px; margin: 6px 0 0; color: var(--ink-2); }
+.cert-steps { margin: 0 0 14px; padding-left: 1.4em; display: grid; gap: 6px; }
+.cert-steps li::marker { font-weight: 700; }
+.cert-alt { font-size: 16px; margin: 6px 0 0; color: var(--ink-2); }
 /* картинка сертификата: тот же макет, что у первой студии (конверт, карточка, эвкалипт на камне), название на карточке «МАНИК МНЕ»; собирает tools/make-certificate.js */
 .cert-img img { width: 100%; height: auto; }
 /* светлый блок, как у сертификата на сайте первой студии: кремовый фон, графитовый текст; серый второстепенный текст там заменён на тёмный олив,
@@ -310,6 +304,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 /* финальный призыв */
 .cta { background: var(--bg-3); text-align: center; }
 .cta-inner { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .cta p { margin: 0 0 10px; color: var(--ink-2); }
 /* на 320 px подпись главной кнопки шире экрана: даём перенос на две строки */
 .cta-inner .btn { max-width: 100%; padding-top: 10px; padding-bottom: 10px; white-space: normal; line-height: 1.25; }
@@ -318,9 +313,9 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .contacts { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(24px, 5vw, 64px); align-items: start; }
 .contacts address { font-style: normal; display: grid; gap: 14px; margin: 20px 0; }
 .contacts address p { margin: 0; }
-.phone { font: 500 1.6rem var(--serif); text-decoration: none; }
+.phone { display: inline-flex; align-items: center; min-height: 44px; font: 500 1.6rem var(--serif); text-decoration: none; }
 .messengers { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 24px; }
-.messengers a { font-weight: 600; }
+.messengers a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
 .contacts-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .contacts-media { display: grid; gap: 16px; }
 .contacts-media img { width: 100%; border-radius: var(--radius); }
@@ -334,9 +329,10 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 }
 
 /* подвал */
-.site-footer { border-top: 1px solid var(--line); padding: 28px 0; font-size: 14px; color: var(--ink-2); }
+.site-footer { border-top: 1px solid var(--line); padding: 28px 0; font-size: 15px; color: var(--ink-2); }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 32px; }
-.footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
 
 @media (max-width: 900px) {
   .cert, .contacts { grid-template-columns: 1fr; }
@@ -348,7 +344,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 /* кто просит меньше движения в системе: без плавной прокрутки и анимаций кнопок */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn, .tile-img, .tile-text { transition: none; }
+  .btn, .tile-img { transition: none; }
   .btn-primary:hover { transform: none; }
   .tile:hover .tile-img { transform: none; }
 }

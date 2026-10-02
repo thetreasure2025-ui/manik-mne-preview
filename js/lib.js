@@ -44,10 +44,10 @@
     return min;
   }
 
-  // Что делать по клику на кнопку записи: открыть виджет или пойти по ссылке в WhatsApp.
+  // Что делать по клику на кнопку «Узнать свободное время»: открыть виджет записи (если он подключён и загрузился) или пойти по ссылке в WhatsApp.
   function bookingTarget(widgetReady, label) {
     if (widgetReady) return { kind: 'widget' };
-    return { kind: 'link', href: waLink('Здравствуйте! Хочу записаться' + (label ? ': ' + label : '')) };
+    return { kind: 'link', href: waLink('Здравствуйте! Хочу узнать свободное время' + (label ? ': ' + label : '')) };
   }
 
   // Режим примеров (?demo=1) включается только на своём компьютере: с диска (file:) или с localhost.
@@ -78,7 +78,8 @@
     return showDemo && demo ? Object.assign({}, demo, { demo: true }) : null;
   }
 
-  // Плитка направления: фото с названием, ценой «от X ₽» и описанием поверх (tile-overlay), под фото кнопка записи и ссылка на прайс.
+  // Плитка направления: фото с названием и ценой «от X ₽» поверх (tile-overlay), под фото короткое описание (видно всегда, в том числе на телефоне)
+  // и одна кнопка «Посмотреть цены»: она открывает нужную вкладку прайса и не торопит с записью.
   function renderTile(cat, tile) {
     var from = fromPrice(cat);
     return (
@@ -88,17 +89,25 @@
       '<div class="tile-overlay">' +
       '<h3 class="tile-title">' + esc(tile.title) + '</h3>' +
       (from === null ? '' : '<p class="tile-price">от' + NBSP + formatRub(from) + '</p>') +
-      '<p class="tile-text">' + esc(tile.text) + '</p>' +
       '</div></div>' +
+      '<p class="tile-text">' + esc(tile.text) + '</p>' +
       '<div class="tile-actions">' +
-      '<a class="btn btn-primary btn-sm" href="' + esc(waLink('Здравствуйте! Хочу записаться: ' + tile.bookLabel)) + '" data-book data-book-label="' + esc(tile.bookLabel) + '">' + esc(tile.cta) + '</a>' +
-      '<a class="link-arrow" href="#price" data-open-tab="' + esc(cat.id) + '">Посмотреть цены</a>' +
+      '<a class="btn btn-primary btn-sm" href="#price" data-open-tab="' + esc(cat.id) + '">Посмотреть цены</a>' +
       '</div></article>'
     );
   }
 
+  // Короткое пояснение к названию процедуры (hints: [{ match: 'Мокрый эффект', text: '…' }]): первое совпадение по вхождению в название.
+  function hintFor(name, hints) {
+    var list = Array.isArray(hints) ? hints : [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i] && typeof list[i].match === 'string' && String(name).indexOf(list[i].match) !== -1) return list[i].text;
+    }
+    return '';
+  }
+
   // Таблица прайса одной категории. На телефоне CSS превращает строки в карточки (по data-label).
-  function renderPriceTable(cat) {
+  function renderPriceTable(cat, hints) {
     var head =
       '<tr><th scope="col">Процедура</th>' +
       cat.columns.map(function (c) { return '<th scope="col" class="num">' + esc(c) + '</th>'; }).join('') +
@@ -107,10 +116,12 @@
       var cells = r.values.map(function (v, i) {
         return '<td class="num" data-label="' + esc(cat.columns[i]) + '">' + formatRub(v) + '</td>';
       }).join('');
+      var hint = hintFor(r.name, hints);
       return (
         '<tr><th scope="row"><span class="p-name">' + esc(r.name) + '</span>' +
-        (r.note ? '<span class="p-note">' + esc(r.note) + '</span>' : '') + '</th>' + cells +
-        '<td class="act"><a class="btn btn-outline btn-sm" href="' + esc(waLink('Здравствуйте! Хочу записаться: ' + r.name)) + '" data-book data-book-label="' + esc(r.name) + '">Выбрать время</a></td></tr>'
+        (r.note ? '<span class="p-note">' + esc(r.note) + '</span>' : '') +
+        (hint ? '<span class="p-note p-hint">' + esc(hint) + '</span>' : '') + '</th>' + cells +
+        '<td class="act"><a class="btn btn-outline btn-sm" href="' + esc(waLink('Здравствуйте! Хочу узнать свободное время: ' + r.name)) + '" data-book data-book-label="' + esc(r.name) + '">Узнать свободное время</a></td></tr>'
       );
     }).join('');
     return '<table class="price-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
@@ -125,12 +136,12 @@
     }).join('\n');
   }
 
-  function renderPanels(prices) {
+  function renderPanels(prices, hints) {
     return prices.map(function (c, i) {
       return (
         '<div role="tabpanel" class="price-panel" id="panel-' + esc(c.id) + '" aria-labelledby="tab-' + esc(c.id) + '"' +
         (i === 0 ? '' : ' hidden') + '>' +
-        '<h3 class="panel-title">' + esc(c.tab) + '</h3>' + renderPriceTable(c) + '</div>'
+        '<h3 class="panel-title">' + esc(c.tab) + '</h3>' + renderPriceTable(c, hints) + '</div>'
       );
     }).join('\n');
   }
@@ -180,29 +191,14 @@
       '<span class="stars" aria-hidden="true">' + '★★★★★'.slice(0, stars) + '☆☆☆☆☆'.slice(0, 5 - stars) + '</span> ' +
       '<b>' + r.value.toFixed(1).replace('.', ',') + '</b>' +
       (r.place ? ' на ' + esc(r.place) : '') + count +
-      (r.url ? ' <a class="link-arrow" href="' + esc(r.url) + '" target="_blank" rel="noopener">Все отзывы</a>' : '') +
+      (r.url ? ' <a class="link-arrow" href="' + esc(r.url) + '" target="_blank" rel="noopener">Читать все отзывы</a>' : '') +
       '</p>'
-    );
-  }
-
-  function renderMaster(m) {
-    var initials = String(m.name || '').split(/\s+/).map(function (p) { return p.charAt(0); }).join('').slice(0, 2).toUpperCase();
-    var photo = m.photo
-      ? '<img class="avatar" src="' + esc(m.photo) + '" alt="' + esc(m.name) + '" loading="lazy" decoding="async">'
-      : '<div class="avatar avatar-stub" aria-hidden="true">' + esc(initials) + '</div>';
-    return (
-      '<article class="master">' + ribbon(m) + photo +
-      '<h3>' + esc(m.name) + '</h3>' +
-      (m.role ? '<p class="master-role">' + esc(m.role) + '</p>' : '') +
-      (m.experience ? '<p class="master-exp">' + esc(m.experience) + '</p>' : '') +
-      '<a class="btn btn-outline btn-sm" href="' + esc(waLink('Здравствуйте! Хочу записаться к мастеру ' + m.name)) + '" data-book data-book-label="' + esc(m.name) + '">Посмотреть свободное время</a>' +
-      '</article>'
     );
   }
 
   api.renderWork = renderWork;
   api.renderReview = renderReview;
   api.renderRating = renderRating;
-  api.renderMaster = renderMaster;
+  api.hintFor = hintFor;
   return api;
 });
