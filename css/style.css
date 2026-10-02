@@ -4,6 +4,7 @@
   --bg-2: #242426;            /* вторичные секции */
   --bg-3: #4E513F;            /* акцентные полосы: тёмный олив */
   --bg-rgb: 28, 28, 30;       /* тот же --bg для rgba(var(--bg-rgb), .94) */
+  --bg-3-rgb: 78, 81, 63;     /* тот же --bg-3 для оливовой плёнки поверх фото с листьями */
   --ink: #F4F1EA;             /* основной текст: кремовый */
   --ink-2: #BFBBB1;           /* второстепенный текст: светлее, чем у первой студии, чтобы хорошо читался */
   --gold: #D6C0A4;            /* песок: кнопки, активная вкладка, рамка фокуса, номера */
@@ -264,16 +265,29 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .help .section-head { margin: 0; }
 .help-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
-/* почему можно доверять: три нумерованные колонки на цветной полосе */
-.trust { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
-.trust-item { padding: 28px 28px 8px 0; }
-.trust-item + .trust-item { padding-left: 28px; border-left: 1px solid var(--line); }
+/* почему нам доверяют: как у первой студии. Фон: фото с листьями эвкалипта под оливовой плёнкой (текст читается, листья видны справа).
+   Слева заголовок и рукописная надпись «С заботой о каждой детали» (картинка), справа три нумерованные колонки. До 1100 px всё друг под другом. */
+.section-leaves {
+  background:
+    linear-gradient(rgba(var(--bg-3-rgb), .6), rgba(var(--bg-3-rgb), .6)),
+    url("../assets/img/trust-leaves.webp") right center / cover no-repeat,
+    var(--bg-3);
+}
+.trust-layout {
+  display: grid; grid-template-columns: minmax(0, 18rem) minmax(0, 1fr); grid-template-rows: auto 1fr;
+  grid-template-areas: "title cols" "sign cols";
+  column-gap: clamp(32px, 5vw, 80px); row-gap: 24px; align-items: start;
+}
+.trust-title { grid-area: title; }
+.trust-sign { grid-area: sign; align-self: end; width: min(100%, 17rem); height: auto; transform: rotate(-9deg); transform-origin: left bottom; margin-top: 40px; }
+.trust { grid-area: cols; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 48px); }
 .trust-num { display: block; margin-bottom: 14px; font: 400 3.4rem/1 var(--serif); font-variant-numeric: lining-nums; color: var(--gold); }
+.trust-num::after { content: ""; display: block; width: 108px; height: 1px; margin-top: 12px; background: var(--gold); }
 .trust-item h3 { font-size: 1.4rem; margin-bottom: 10px; }
 .trust-item p { margin: 0; color: var(--ink-2); }
 
 /* сертификат */
-.cert { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
+.cert { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
 .cert-text > p { color: var(--ink-2); }
 .cert-amounts { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 14px; }
 .cert-amounts .btn { white-space: nowrap; }
@@ -282,6 +296,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .cert-alt { font-size: 16px; margin: 6px 0 0; color: var(--ink-2); }
 /* картинка сертификата: тот же макет, что у первой студии (конверт, карточка, эвкалипт на камне), название на карточке «МАНИК МНЕ»; собирает tools/make-certificate.js */
 .cert-img img { width: 100%; height: auto; }
+
 /* светлый блок, как у сертификата на сайте первой студии: кремовый фон, графитовый текст; серый второстепенный текст там заменён на тёмный олив,
    кнопки перевёрнуты (графитовые), рамка фокуса графитовая */
 .section-light { background: var(--ink); color: var(--bg); --ink-2: var(--bg-3); }
@@ -322,6 +337,9 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .map { display: block; }
 /* с 901 px текст слева, карта и фото интерьера рядом справа и одной высоты (картинки обрезаются по рамке, не растягиваются) */
 @media (min-width: 901px) {
+  /* картинка сертификата выходит за правый край контейнера до края окна: на компьютере она занимает около половины экрана, как у первой студии */
+  .section-light { overflow: hidden; }
+  .cert-img { margin-right: calc((min(100vw - 32px, var(--wrap)) - 100vw) / 2); }
   .contacts { grid-template-columns: minmax(0, .8fr) minmax(0, 2fr); align-items: stretch; }
   .contacts-media { grid-template-columns: 1.3fr 1fr; align-items: stretch; }
   .map, .contacts-media img { height: 100%; }
@@ -334,10 +352,15 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .footer-links { display: flex; flex-wrap: wrap; gap: 4px 24px; }
 .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
 
+@media (max-width: 1120px) {
+  .trust-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "cols" "sign"; row-gap: 28px; }
+  .trust-sign { width: min(70%, 16rem); margin-top: 0; }
+}
 @media (max-width: 900px) {
   .cert, .contacts { grid-template-columns: 1fr; }
+  .cert-img { margin: 0 -16px; } /* на телефоне картинка во всю ширину экрана, а не в рамке полей */
   .trust { grid-template-columns: minmax(0, 1fr); }
-  .trust-item, .trust-item + .trust-item { padding: 22px 0 8px; border-left: 0; }
+  .trust-item { padding: 22px 0 8px; }
   .trust-item + .trust-item { border-top: 1px solid var(--line); }
 }
 
