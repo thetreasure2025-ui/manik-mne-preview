@@ -6,7 +6,8 @@
   'use strict';
 
   var NBSP = '\u00A0';
-  var WA_PHONE = '79060072420';
+  var BOOK_URL = 'https://n2624694.yclients.ru';
+  var PHONE = '+79939051025';
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -28,8 +29,8 @@
     return forms[2];
   }
 
-  function waLink(text) {
-    return 'https://wa.me/' + WA_PHONE + (text ? '?text=' + encodeURIComponent(text) : '');
+  function telLink() {
+    return 'tel:' + PHONE;
   }
 
   // Минимальная цена категории. Пустые ячейки (null) и строки-добавки не считаются.
@@ -44,10 +45,10 @@
     return min;
   }
 
-  // Что делать по клику на кнопку «Узнать свободное время»: открыть виджет записи (если он подключён и загрузился) или пойти по ссылке в WhatsApp.
+  // Что делать по клику на кнопку «Узнать свободное время»: открыть виджет записи (если он подключён и загрузился) или пойти по ссылке на онлайн-запись YCLIENTS.
   function bookingTarget(widgetReady, label) {
     if (widgetReady) return { kind: 'widget' };
-    return { kind: 'link', href: waLink('Здравствуйте! Хочу узнать свободное время' + (label ? ': ' + label : '')) };
+    return { kind: 'link', href: BOOK_URL };
   }
 
   // Режим примеров (?demo=1) включается только на своём компьютере: с диска (file:) или с localhost.
@@ -121,7 +122,7 @@
         '<tr><th scope="row"><span class="p-name">' + esc(r.name) + '</span>' +
         (r.note ? '<span class="p-note">' + esc(r.note) + '</span>' : '') +
         (hint ? '<span class="p-note p-hint">' + esc(hint) + '</span>' : '') + '</th>' + cells +
-        '<td class="act"><a class="btn btn-outline btn-sm" href="' + esc(waLink('Здравствуйте! Хочу узнать свободное время: ' + r.name)) + '" data-book data-book-label="' + esc(r.name) + '">Узнать свободное время</a></td></tr>'
+        '<td class="act"><a class="btn btn-outline btn-sm" href="' + esc(BOOK_URL) + '" target="_blank" rel="noopener" data-book data-book-label="' + esc(r.name) + '">Узнать свободное время</a></td></tr>'
       );
     }).join('');
     return '<table class="price-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
@@ -150,7 +151,7 @@
     esc: esc,
     formatRub: formatRub,
     plural: plural,
-    waLink: waLink,
+    telLink: telLink,
     fromPrice: fromPrice,
     bookingTarget: bookingTarget,
     demoEnabled: demoEnabled,

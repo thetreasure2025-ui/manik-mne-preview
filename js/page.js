@@ -113,13 +113,10 @@
   // нет lib.js (не загрузился): блоки остаются скрытыми, остальная страница работает
   if (L) fillBlocks();
 
-  // --- Сертификат: кнопки номиналов открывают WhatsApp с готовым текстом ---
+  // --- Сертификат: кнопки номиналов ведут на звонок в студию ---
   if (L) {
-    $$('[data-cert-amount]').forEach(function (a) {
-      a.href = L.waLink('Здравствуйте! Хочу подарочный сертификат на ' + L.formatRub(+a.getAttribute('data-cert-amount')));
-    });
-    $$('[data-cert-other]').forEach(function (a) {
-      a.href = L.waLink('Здравствуйте! Хочу подарочный сертификат');
+    $$('[data-cert-amount], [data-cert-other]').forEach(function (a) {
+      a.href = L.telLink();
     });
   }
 
