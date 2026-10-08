@@ -25,12 +25,6 @@ Object.assign(window.MNE_DATA, {
       text: 'Пальчики или полный педикюр, с покрытием гель-лак и без, форматы «Умный» и «Фруктовый».'
     },
     {
-      cat: 'podology',
-      title: 'Подология',
-      img: 'assets/img/tile-podology.webp',
-      text: 'Трещины и мозоли, вросший ноготь, коррекционная система (титановая нить).'
-    },
-    {
       cat: 'lashes',
       title: 'Ресницы',
       img: 'assets/img/tile-lashes.webp',
